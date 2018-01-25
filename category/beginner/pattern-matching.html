@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en" id="page"><head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#"><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><title>Pattern matching - Beginner  - Haxe programming language cookbook</title><base href="./../.."/>
+<link rel="stylesheet" type="text/css" href="https://haxe.org/css/bootstrap.min.css"/><link rel="stylesheet" type="text/css" href="css/styles.min.css"/><link rel="stylesheet" type="text/css" href="css/haxe-nav.min.css"/><link rel="icon" href="https://haxe.org/favicon.ico"/><link rel="canonical" href="https://code.haxe.org/category/beginner/pattern-matching.html"/><link href="https://code.haxe.org/rss.xml" rel="alternate" type="application/atom+xml" title="RSS Feed Haxe Code Cookbook"/><meta name="description" content="This article helps to learn pattern matching and all of its type of matching in practice. The article covers basic matching, variable capture, guards, extractors and enum/structure matching."/>
+<meta name="twitter:creator" content="@haxe_org"/>
+<meta property="og:title" content="Pattern matching - Beginner  - Haxe programming language cookbook"/><meta property="og:description" content="This article helps to learn pattern matching and all of its type of matching in practice. The article covers basic matching, variable capture, guards, extractors and enum/structure matching."/><meta property="og:type" content="article"/><meta property="og:url" content="https://code.haxe.org/category/beginner/pattern-matching.html"/><meta property="og:image" content="https://code.haxe.org/img/share.png"/><meta property="article:publisher" content="haxe.org"/><meta property="article:published_time" content="2017-08-31 00:00:00"/><meta property="article:modified_time" content="2017-09-11 00:00:00"/><meta property="article:section" content="technology"/><meta property="article:tag" content="enum,pattern-matching,data-structures"/><link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,700italic,400italic"/><link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400"/></head><body><script type="text/javascript">function startsWith(str, searchString){return str.substr(0, searchString.length) === searchString;}if (!startsWith(location.href, "https://code.haxe.org/")) {window.location.replace("https://code.haxe.org/category/beginner/pattern-matching.html");}</script><nav class="section nav dark"><div class="navbar navbar-fixed-top navbar-inverse"><div class="navbar-inner"><button class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse" type="button"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="brand haxe-logo" href="https://haxe.org/"><img alt="Haxe" height="21" onerror="this.src='https://haxe.org/img/haxe-logo-horizontal-on-dark.png'" src="https://haxe.org/img/haxe-logo-horizontal-on-dark.svg" width="107"/></a><a class="brand sub ide" href="./">CODE</a><div class="nav-collapse collapse"><ul class="nav">
+<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-book"></i> Browse <b class="caret"></b></a><ul class="dropdown-menu"><li class="active"><a href="category/beginner/">Beginner <small class="category-count">(18)</small></a></li><li><a href="category/abstract-types/">Abstract types <small class="category-count">(7)</small></a></li><li><a href="category/compilation/">Compilation <small class="category-count">(1)</small></a></li><li><a href="category/data-structures/">Data structures <small class="category-count">(4)</small></a></li><li><a href="category/design-patterns/">Design patterns <small class="category-count">(4)</small></a></li><li><a href="category/functional-programming/">Functional Programming <small class="category-count">(1)</small></a></li><li><a href="category/javascript/">JavaScript <small class="category-count">(4)</small></a></li><li><a href="category/macros/">Macros <small class="category-count">(17)</small></a></li><li><a href="category/principles/">Principles <small class="category-count">(3)</small></a></li><li><a href="category/other/">Other <small class="category-count">(5)</small></a></li></ul></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tags"></i> Tags <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="tag/expression-macro.html" rel="tag"><i class="fa fa-tag"></i> expression macro <small class="category-count">(10)</small></a></li><li><a href="tag/building-fields.html" rel="tag"><i class="fa fa-tag"></i> building fields <small class="category-count">(8)</small></a></li><li><a href="tag/abstract-type.html" rel="tag"><i class="fa fa-tag"></i> abstract type <small class="category-count">(8)</small></a></li><li><a href="tag/build-macro.html" rel="tag"><i class="fa fa-tag"></i> build macro <small class="category-count">(7)</small></a></li><li><a href="tag/enum.html" rel="tag"><i class="fa fa-tag"></i> enum <small class="category-count">(6)</small></a></li><li><a href="tag/javascript.html" rel="tag"><i class="fa fa-tag"></i> javascript <small class="category-count">(6)</small></a></li><li><a href="tag/data-structures.html" rel="tag"><i class="fa fa-tag"></i> data structures <small class="category-count">(5)</small></a></li><li><a href="tag/iterator.html" rel="tag"><i class="fa fa-tag"></i> iterator <small class="category-count">(4)</small></a></li><li><a href="tag/dead-code-elimination.html" rel="tag"><i class="fa fa-tag"></i> dead code elimination <small class="category-count">(4)</small></a></li><li><a href="tag/pattern-matching.html" rel="tag"><i class="fa fa-tag"></i> pattern matching <small class="category-count">(4)</small></a></li><li><a href="tag/validation.html" rel="tag"><i class="fa fa-tag"></i> validation <small class="category-count">(3)</small></a></li><li><a href="tag/collections.html" rel="tag"><i class="fa fa-tag"></i> collections <small class="category-count">(3)</small></a></li><li><a href="tag/class.html" rel="tag"><i class="fa fa-tag"></i> class <small class="category-count">(3)</small></a></li><li><a href="tag/array.html" rel="tag"><i class="fa fa-tag"></i> array <small class="category-count">(3)</small></a></li><li><a href="tag/math.html" rel="tag"><i class="fa fa-tag"></i> math <small class="category-count">(2)</small></a></li><li><a href="tag/ereg.html" rel="tag"><i class="fa fa-tag"></i> ereg <small class="category-count">(2)</small></a></li><li><a href="tag/type-params.html" rel="tag"><i class="fa fa-tag"></i> type params <small class="category-count">(2)</small></a></li><li><a href="tag/reflection.html" rel="tag"><i class="fa fa-tag"></i> reflection <small class="category-count">(2)</small></a></li><li><a href="tag/arguments.html" rel="tag"><i class="fa fa-tag"></i> arguments <small class="category-count">(2)</small></a></li><li><a href="tag/conditional-compilation.html" rel="tag"><i class="fa fa-tag"></i> conditional compilation <small class="category-count">(2)</small></a></li><li><a href="tag/libraries.html" rel="tag"><i class="fa fa-tag"></i> libraries <small class="category-count">(2)</small></a></li><li><a href="tag/static-extension.html" rel="tag"><i class="fa fa-tag"></i> static extension <small class="category-count">(2)</small></a></li></ul></li><li class="divider"></li>
+<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="https://haxe.org/documentation/">Learn Haxe <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="https://haxe.org/documentation/" rel="external">Introduction</a></li><li class="divider"></li><li><a href="https://haxe.org/manual/" rel="external">Manual</a></li><li><a href="http://api.haxe.org" rel="external">API Documentation</a></li><li class="divider"></li><li><a href="http://try.haxe.org" rel="external">Try Haxe</a></li><li><a href="https://lib.haxe.org" rel="external">Haxelib</a></li><li class="active"><a href="http://code.haxe.org" rel="external">Code Cookbook</a></li></ul></li><li class=" dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Connect <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="https://github.com/HaxeFoundation" rel="external"><i class="fa fa-github"></i> Github</a></li><li><a href="https://github.com/HaxeFoundation/haxe/issues" rel="external"><i class="fa fa-github"></i> Bug reports</a></li><li><a href="https://stackoverflow.com/questions/tagged/haxe" rel="external"><i class="fa fa-stack-exchange"></i> Stack Overflow</a></li><li><a href="http://community.haxe.org/" rel="external"><i class="fa fa-envelope-o"></i> Forums</a></li><li><a href="https://gitter.im/HaxeFoundation/haxe" rel="external nofollow"><i class="fa fa-comments-o"></i> Chat</a></li><li><a href="https://haxe.org/blog"><i class="fa fa-rss"></i> Blog</a></li><li class="divider"></li><li><a href="https://www.facebook.com/haxe.org/" rel="external"><i class="fa fa-facebook"></i> Facebook</a></li><li><a href="https://twitter.com/search?q=%23haxe" rel="external"><i class="fa fa-twitter"></i> #haxe</a></li><li><a href="https://twitter.com/haxelang" rel="external"><i class="fa fa-twitter"></i> @haxelang</a></li><li><a href="https://twitter.com/haxe_org" rel="external"><i class="fa fa-twitter"></i> @haxe_org</a></li><li class="divider"></li><li><a href="https://haxe.org/foundation/contact.html" rel="external">Contact</a></li></ul></li></ul></div></div></div></nav><div class="main-content"><header class="hero-unit-small"><div class="container"><div class="row"><div id="title">Haxe Code Cookbook</div></div></div></header><main class="container"><section class="row"><nav class="span4 sidebar-toc" id="sidebar"><h3>Table of contents</h3><ul class="unstyled"><li><a href="category/beginner/" class="active">Beginner</a><ul class="unstyled"><li><a href="category/beginner/arrays.html">Using arrays</a></li><li><a href="category/beginner/conditional-compilation.html">Conditional compilation</a></li><li><a href="category/beginner/date-time.html">Working with date and time</a></li><li><a href="category/beginner/declare-classes.html">Declare classes</a></li><li><a href="category/beginner/declare-functions.html">Declare functions</a></li><li><a href="category/beginner/enum-adt.html">Using enum / ADT</a></li><li><a href="category/beginner/hello-world.html">Hello world</a></li><li><a href="category/beginner/lists.html">Using lists</a></li><li><a href="category/beginner/loading-external-files.html">Loading an external file</a></li><li><a href="category/beginner/maps.html">Using maps</a></li><li><a href="category/beginner/numbers-floats-ints.html">Using numbers</a></li><li class="active"><a href="category/beginner/pattern-matching.html">Pattern matching</a></li><li><a href="category/beginner/reflection-method-call.html">Invoke object method by string</a></li><li><a href="category/beginner/regular-expressions.html">Using regular expressions</a></li><li><a href="category/beginner/string-variable-reflection.html">Access a field by string</a></li><li><a href="category/beginner/strings.html">Using strings</a></li><li><a href="category/beginner/using-filesystem.html">Using the file system</a></li><li><a href="category/beginner/using-static-extensions.html">Using static extensions</a></li></ul></li><br/><li><a href="category/abstract-types/">Abstract types</a><ul class="unstyled"><li><a href="category/abstract-types/abstracts-with-type-params.html">Strict typing for stringly-typed extern code</a></li><li><a href="category/abstract-types/array-access-db-manager.html">Array access of a database manager</a></li><li><a href="category/abstract-types/color.html">Color as abstract type</a></li><li><a href="category/abstract-types/emailaddress.html">Email address as abstract type</a></li><li><a href="category/abstract-types/rounded-float.html">Rounded Float as abstract type</a></li><li><a href="category/abstract-types/temperature-units.html">Temperature units as abstract type</a></li><li><a href="category/abstract-types/using-iterators-as-generic-type-parameters.html">Using Iterators as Generic Type Parameters</a></li></ul></li><br/><li><a href="category/compilation/">Compilation</a><ul class="unstyled"><li><a href="category/compilation/compiling-libraries-without-main-class.html">Compiling libraries without main class</a></li></ul></li><br/><li><a href="category/data-structures/">Data structures</a><ul class="unstyled"><li><a href="category/data-structures/grid-iterator.html">Grid iterator</a></li><li><a href="category/data-structures/reverse-iterator.html">Reverse iterator</a></li><li><a href="category/data-structures/sort-array.html">Sorting arrays</a></li><li><a href="category/data-structures/step-iterator.html">Stepped iterator</a></li></ul></li><br/><li><a href="category/design-patterns/">Design patterns</a><ul class="unstyled"><li><a href="category/design-patterns/factory.html">Factory</a></li><li><a href="category/design-patterns/lazy-initialization.html">Lazy initialization</a></li><li><a href="category/design-patterns/observer.html">Observer</a></li><li><a href="category/design-patterns/singleton.html">Singleton</a></li></ul></li><br/><li><a href="category/functional-programming/">Functional Programming</a><ul class="unstyled"><li><a href="category/functional-programming/enum-gadt.html">Enums as GADTs</a></li></ul></li><br/><li><a href="category/javascript/">JavaScript</a><ul class="unstyled"><li><a href="category/javascript/adding-element-to-dom.html">Adding a HTML element to the DOM</a></li><li><a href="category/javascript/creating-node-server.html">Create a server with Haxe/NodeJS</a></li><li><a href="category/javascript/javascript-inline-workers.html">JavaScript inline web workers in Haxe</a></li><li><a href="category/javascript/using-haxe-classes-in-javascript.html">Using Haxe classes in JavaScript</a></li></ul></li><br/><li><a href="category/macros/">Macros</a><ul class="unstyled"><li><a href="category/macros/add-git-commit-hash-in-build.html">Add git commit-hash in build</a></li><li><a href="category/macros/add-parameters-as-fields.html">Add parameters as fields</a></li><li><a href="category/macros/assert-with-values.html">Assert macro that shows sub-expression values</a></li><li><a href="category/macros/build-arrays.html">Generating Arrays with values</a></li><li><a href="category/macros/build-map.html">Add a map</a></li><li><a href="category/macros/build-property-with-inline-getter.html">Add property with getter</a></li><li><a href="category/macros/build-static-field.html">Add a static field</a></li><li><a href="category/macros/build-value-objects.html">Create value-objects</a></li><li><a href="category/macros/combine-objects.html">Combine two or more structures</a></li><li><a href="category/macros/completion-from-url.html">Code completion from URL</a></li><li><a href="category/macros/enum-abstract-values.html">Get all values of an @:enum abstract</a></li><li><a href="category/macros/extract-enum-value.html">Extract values from known enum instances</a></li><li><a href="category/macros/generate-dispatch-code.html">Generate dispatch code</a></li><li><a href="category/macros/generating-code-in-a-macro.html">Generating code in a macro</a></li><li><a href="category/macros/get-compiler-define-value.html">Working with compiler flags</a></li><li><a href="category/macros/include-file-next-to-module-file.html">Include a file next to a Haxe module file</a></li><li><a href="category/macros/validate-json.html">Validates a .JSON file compile-time</a></li></ul></li><br/><li><a href="category/principles/">Principles</a><ul class="unstyled"><li><a href="category/principles/everything-is-an-expression.html">Everything is an expression</a></li><li><a href="category/principles/inheritance.html">Inheritance</a></li><li><a href="category/principles/null-safety.html">Null safety</a></li></ul></li><br/><li><a href="category/other/">Other</a><ul class="unstyled"><li><a href="category/other/adding-static-methods-to-existing-classes.html">Adding static methods to existing classes</a></li><li><a href="category/other/base64-encoding.html">Base64 encoding</a></li><li><a href="category/other/named-parameters.html">Named Parameters</a></li><li><a href="category/other/passing-different-types-to-a-function-parameter.html">Passing different types to a function parameter</a></li><li><a href="category/other/vga-text-renderer.html">VGA text renderer</a></li><li><a href="category/other/working-with-cppia/index.html">Working with cppia</a></li></ul></li><br/></ul></nav><article class="span8" itemscope="itemscope" itemtype="http://schema.org/Article"><small itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList"><span itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem"><a itemprop="name" href="/">Haxe programming cookbook</a> › </span><span itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem"><a itemprop="name" href="category/beginner/">Beginner</a> › </span><span itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem"><a itemprop="name" href="category/beginner/pattern-matching.html">Pattern matching</a></span></small><h1><a href="https://code.haxe.org/category/beginner/pattern-matching.html" itemprop="url" class="anchorjs-icons"></a> <span itemprop="name">Pattern matching</span></h1><div itemprop="articleBody"><p>This article helps to learn pattern matching and all of its type of matching in practice. The article covers basic matching, variable capture, guards, extractors and enum/structure matching.</p>
+<p>Switch statements in Haxe can improve readability and also help write less repetitive / redundant code. 
+You might have found code in the macro section and wonder what all those switches do, or what the difference would be compared to if/else statements.
+Some examples on this page don't improve readability directly, they are mostly to explain the syntax and demonstrate how pattern matching works. 
+At the end of the article there will be cases where its usecase will be more clear and readability/expressiveness is considered better compared to using plain if/else statements.</p>
+<p>To get started with pattern matching in Haxe, please consult <a href="https://haxe.org/manual/lf-pattern-matching.html">the manual</a> too.</p>
+<h3>Basic matching and capturing variables</h3>
+<p>Let's say we loop from 0 to 10 and log if we found a special number two or four.</p>
+<p>The matches can be written like <code>case &lt;pattern&gt;:</code></p>
+<pre><code class="prettyprint haxe">for (value in 0...10) {
+  switch value {
+    case 2: 
+      trace("special number 2");
+    case 4: 
+      trace("special number 4");
+    case _: 
+      trace("other");
+  }
+}</code></pre>
+<p>The underscore here means "anything" and works basically the same as <code>default</code> in this case. But it does not have a name assigned. This means you can't log it or pass it to something else for example.</p>
+<p>Now imaging we want to log what the "other number" actually is. 
+This can be done using <a href="https://haxe.org/manual/lf-pattern-matching-variable-capture.html">variable capture</a>. In our case we name it <code>other</code>.</p>
+<pre><code class="prettyprint haxe">for (value in 0...10) {
+  switch value {
+    case 2: 
+      trace("special number 2");
+    case 4: 
+      trace("special number 4");
+    case other: 
+      trace("other: " + other);
+  }
+}</code></pre>
+<p><em>Important note:</em> The order of the cases are important. For the sake of clarity, the following code will never log any special number, because it will match the "others" pattern first.
+Luckily, if we do write such <a href="https://haxe.org/manual/lf-pattern-matching-unused.html">useless cases</a>, Haxe will give a compiler warning "This case is unused", since it knows it will never match our special numbers.</p>
+<pre><code class="prettyprint haxe">for (value in 0...10) {
+  switch value {
+    case other: 
+      trace("other: " + other);
+    case 2:
+      trace("special number 2");
+    case 4:
+      trace("special number 4");
+  }
+}</code></pre>
+<p>Let's continue with the naming. Of course we can also name our special number and capture that as variable. 
+Remember that a great feature of pattern matching is that you can name anything. This helps avoiding repeating code.</p>
+<pre><code class="prettyprint haxe">for (value in 0...10) {
+  switch value {
+    case special = 2: 
+      trace("special number: " + special);
+    case other: 
+      trace("other: " + other);
+  }
+}</code></pre>
+<h3>Or pattern</h3>
+<p>The <code>|</code> operator can be used anywhere within patterns to describe multiple accepted patterns. If there is a captured variable in an or-pattern, it must appear in both its sub-patterns. </p>
+<p>Let's go on with the previous example and say that not only 2 and 4 are special, but 6 is too. You can switch on multiple cases like this:</p>
+<pre><code class="prettyprint haxe">for (value in 0...10) {
+  switch value {
+    case 2 | 4 | 6: 
+      trace("special number");
+    case other: 
+      trace("other: " + other);
+  }
+}</code></pre>
+<p>Again it is possible to capture our special numbers into a variables. </p>
+<pre><code class="prettyprint haxe">switch Std.random(10) {
+  case special = 2 | 4 | 6: 
+    trace("special number: " + special);
+  case other:
+    trace("other: " + other);
+}</code></pre>
+<blockquote>
+<p>You can use commas to use multiple case. So <code>case 2, 4, 6</code> is the same as writing <code>case 2 &#124; 4 &#124; 6</code>. 
+Comma is the old notation from Haxe 2, but still works. But because of Haxe's internal structure, commas separate patterns which disallows variable capturing since you can't do <code>a = 2,4,6</code>.</p></blockquote>
+<h3>Matching on the result of a function</h3>
+<p>To continue learning about what we can do with pattern matching let's trace if a value is even or odd. 
+Without pattern matching you would create an if/else condition like this.</p>
+<pre><code class="prettyprint haxe">function isEven(value:Float) return value % 2 == 0;
+
+for (value in 0...10) {
+  if (isEven(value)) {
+    trace("even");
+  } else {
+    trace("odd");
+  }
+}</code></pre>
+<p>With pattern matching you could switch on the result of the isEven function, which is either <code>true</code> or <code>false</code>.</p>
+<pre><code class="prettyprint haxe">function isEven(value:Float) return value % 2 == 0;
+
+for (value in 0...10) {
+  switch isEven(value) {
+    case true: 
+      trace("even");
+    case false: 
+      trace("odd");
+  }
+}</code></pre>
+<h3>Extractors</h3>
+<p><a href="https://haxe.org/manual/lf-pattern-matching-extractors.html">Pattern matching extractors</a> are identified by the <code>case expression =&gt; pattern:</code> syntax. Extractors consist of two parts, which are separated by the => operator.</p><ul><li>The left side can be any expression, where all occurrences of underscore <code>_</code> are replaced with the currently matched value.</li><li>The right side is a pattern which is matched against the result of the evaluation of the left side.</li></ul>
+<p>Don't let the underscores confuse you. In extractors (when there's <code>=&gt;</code>), <code>_</code> has a special meaning: the currently matched value. </p>
+<p>Let's do a very simple example of an extractor first; check if the matched value is 2.</p>
+<pre><code class="prettyprint haxe">for(value in 0...10) {
+  switch value {
+    // match if value equals two
+    case _ =&gt; 2:
+      trace("found special number");
+  }
+}</code></pre>
+<p>Now let's bring in a function and capture the result as variable.</p>
+<pre><code class="prettyprint haxe">function add(a:Int, b:Int) return a + b;
+
+var input = 3;
+
+switch input {
+  case add(_, 1) =&gt; result:
+    trace(result);
+    // add(3 + 1)
+    // 1 + 3 = 4
+}</code></pre>
+<p>Let's a more complex expression by using two functions: <code>mul(add(3 + 1), 3)</code>, which will result in 12 because <code>(3+1)*3=12</code>.</p>
+<pre><code class="prettyprint haxe">function add(a:Int, b:Int) return a + b;
+function mul(a:Int, b:Int) return a * b;
+
+var input = 3;
+
+switch input {
+  case mul(add(_, 1), 3) =&gt; result:
+    trace(result);
+    // mul(add(3 + 1), 3)
+    // 1 + 3 = 4, =&gt; 4 * 3 = 12
+}</code></pre>
+<p>Sometimes it's easier to read complex patterns like that once you know that extractors are just a kind of pattern.
+So given that extractor is <code>&lt;expr&gt; =&gt; &lt;pattern&gt;</code>, you can nest extractors like <code>&lt;expr&gt; =&gt; (&lt;expr&gt; =&gt; &lt;pattern&gt;)</code>.</p>
+<p>The following example "chains" two extractors.</p>
+<pre><code class="prettyprint haxe">function add(a:Int, b:Int) return a + b;
+function mul(a:Int, b:Int) return a * b;
+
+var input = 3;
+
+switch input {
+  case add(_, 1) =&gt; mul(_, 3) =&gt; result:
+    trace(result);
+    // mul(add(3 + 1), 3)
+    // 1 + 3 = 4, =&gt; 4 * 3 = 12
+}</code></pre>
+<blockquote>
+<p>In the examples above we actually do not match anything, but if we would use <code>case add(_, 1) =&gt; mul(_, 3) =&gt; 12:</code> instead of <code>value</code>, it will only match if the result is 12.</p></blockquote>
+<p>Now back to the odd/even check. The following example doesn't improve readability but demonstrates how we also could have used extractors.
+The function <code>isEven</code> returns a <code>Bool</code>, which we use to match on.</p>
+<pre><code class="prettyprint haxe">function isEven(value:Float) return value % 2 == 0;
+
+for (value in 0...10) {
+  switch value {
+    // match even numbers
+    case isEven(_) =&gt; true: 
+      trace("even");
+
+    // match anything
+    case _: 
+      trace("odd");
+  }
+}</code></pre>
+<p>Now let's wrap it up and combine our odd/even check and capture all as variables and log them. We loop from 0 to 10 and number 4 is our special number.</p>
+<pre><code class="prettyprint haxe">function isEven(value:Float) return value % 2 == 0;
+
+for (value in 0...10) {
+  switch value {
+    // match number 4
+    case special = 4: 
+      trace("special number: " + special);
+
+    // match even numbers
+    case value = isEven(_) =&gt; true: 
+      trace("even number: " + value);
+
+    // match anything
+    case other:
+      trace("other: " + other);
+  }
+}</code></pre>
+<p>This will log:</p>
+<pre><code>even number: 0
+other: 1
+even number: 2
+other: 3
+special number: 4
+other: 5
+even number: 6
+other: 7
+even number: 8
+other: 9</code></pre>
+<h3>Matching on multiple values</h3>
+<p>It's possible to <a href="https://haxe.org/manual/lf-pattern-matching-tuples.html">match on multiple values</a>, by using <code>switch [expr, expr, ..]</code> which uses array syntax.
+The cases should contain an array of the same length. This type of matching makes it easier to compare values between cases.</p>
+<p>This will trace 1 because <code>array[1]</code> matches 6, and <code>array[0]</code> is allowed to be anything.</p>
+<pre><code class="prettyprint haxe">var myArray = [1, 6];
+switch(myArray) {
+  case [2, _]: 
+    trace("0");
+  case [_, 6]:
+    trace("1");
+  case []: 
+    trace("2");
+  case [_, _, _]: 
+    trace("3");
+  case _: 
+    trace("4");
+}</code></pre>
+<p>The "Fizz-Buzz test" is an interview question designed to help filter out the 99.5% of programming job candidates who can't seem to program their way out of a wet paper bag.
+The text of the programming assignment is as follows:</p>
+<blockquote>
+<p>"Write a program that prints the numbers from 1 to 100. But for multiples of three print “Fizz” instead of the number and for the multiples of five print “Buzz”. For numbers which are multiples of both three and five print “FizzBuzz”."</p></blockquote>
+<p>Without pattern matching a programmer could write the code like this:</p>
+<pre><code class="prettyprint haxe">function isMultipleOf(value:Float, of:Float):Bool return value % of == 0;
+
+for (value in 1...101) { // from 1 to 100
+  var multipleOf3 = isMultipleOf(value, 3);
+  var multipleOf5 = isMultipleOf(value, 5);
+  if (multipleOf3 &amp;&amp; multipleOf5) {
+    trace("FizzBuzz");
+  } else if (multipleOf3) {
+    trace("Fizz");
+  } else if (multipleOf5) {
+    trace("Buzz");
+  } else {
+    trace(Std.string(value));
+  }
+}</code></pre>
+<p>If we would match using multiple values here, our FizzBuzz code would look like demonstrated here. We basically do <code>switch [boolean, boolean]</code> here.</p>
+<pre><code class="prettyprint haxe">function isMultipleOf(value:Float, of:Float):Bool return value % of == 0;
+
+for(value in 1...101) {
+  trace(switch [isMultipleOf(value, 3), isMultipleOf(value, 5)] {
+    case [true, true]: "FizzBuzz";
+    case [true, false]: "Fizz";
+    case [false, true]: "Buzz";
+    case [false, false]: Std.string(value);
+  });
+}</code></pre>
+<h3>Rock / Paper / Scissors</h3>
+<p>Let's go into more practical examples of array matching. They become powerful when bringing enums and more complex objects.
+Now readability is always debatable but this example shows how clear you can create a rock paper scissors game with matching multiple values.
+Writing this code with if/else would have lot of <code>if(playerA.move == Paper &amp;&amp; playerB.move == Paper) winner = playerB</code>. 
+As you can see the switch here directly returns the player who wins, or <code>null</code> when it is draw.</p>
+<pre><code class="prettyprint haxe">class Test {
+  static function main() {
+    var playerA = {
+      name: "Simn",
+      move: Move.Paper
+    }
+    var playerB = {
+      name: "Nicolas",
+      move: Move.Rock
+    }
+        
+    // a switch can directly return something
+    var winner = switch [playerA.move, playerB.move] {
+      case [Rock, Paper]: playerB;
+      case [Rock, Scissors]: playerA;
+      case [Paper, Rock]: playerA;
+      case [Paper, Scissors]: playerB;
+      case [Scissors, Rock]: playerB;
+      case [Scissors, Paper]: playerA;
+      default: null;
+    }
+    
+    if (winner != null) {
+      trace('The winner is: ${winner.name}');
+    } else {
+      trace('Draw!');
+    }
+  }
+}  
+
+enum Move {
+  Rock; Paper; Scissors;
+}</code></pre>
+<p>If we would use the OR pattern here, we could have written the cases like this:</p>
+<pre><code>var winner = switch [playerA.move, playerB.move] {
+  case [Rock, Scissors] | [Paper, Rock] | [Scissors, Paper]: playerA;
+  case [Rock, Paper] | [Paper, Scissors] | [Scissors, Rock]: playerB;
+  default: null;
+}</code></pre>
+<h3>Array matching</h3>
+<p><a href="https://haxe.org/manual/lf-pattern-matching-array.html">Array matching</a> is looks similar to matching on multiple values, but this matches on actual arrays, not on multiple things which can be different types. 
+The cases can have different array length.
+It can also be very useful when you want to parse/match input, e.g. for a text based game, bot or when building a command-line interface (CLI).
+In the following example we want to parse <code>"say {word} to {name}"</code>. If the input doesn't match, it says "unknown command". As you can see we capture {word} and {name} as variables.</p>
+<pre><code class="prettyprint haxe">var input = "say hello to Dave";
+
+switch input.split(" ") {
+  // match "say {word} to {name}"
+  case ["say", word, "to", name]: 
+    trace('$word to $name');
+
+  // match anything
+  case _: 
+    trace("unknown command");
+}
+// hello to Dave</code></pre>
+<p>Of course you can bring the multiple cases here in too.
+Let's say our input command bot is a bit picky and replies different when you say specific to somebody called Sophia, Emma or Olivia. 
+Note that because the given name here is Mark, it will fall to the second case.</p>
+<pre><code class="prettyprint haxe">var input = "say hi to Mark";
+
+switch input.split(" ") {
+  // match "say {word} to {name}" where name is specific name
+  case ["say", word, "to", name = "Sophia" | "Emma" | "Olivia"]: 
+    trace('I only want to say $word to you, $name');
+
+  // match "say {word} to {name}"
+  case ["say", word, "to", name]: 
+    trace('$word to $name');
+
+  // match anything
+  case _: 
+    trace("unknown command");
+}</code></pre>
+<h3>Guards</h3>
+<p>It is possible to restrict case using if statements. We call these <a href="https://haxe.org/manual/lf-pattern-matching-guards.html">guards</a>. 
+They can be used with the <code>case ... if(condition):</code> syntax.
+For example, suppose you want to check whether an integer is greater than, less than, or equal to zero.</p>
+<pre><code class="prettyprint haxe">var value = 10;
+if (value &gt; 0) {
+  trace("positive: " + value);
+} else if (value &lt; 0) {
+  trace("negative: " + value);
+} else {
+  trace("zero");
+}</code></pre>
+<p>The equivalent of this with guarded pattern matching would be the following snippet. 
+As you might notice we will capture a variable of value in the case (<code>case v</code>) and use <code>v</code> in the if-statement afterwards.</p>
+<pre><code class="prettyprint haxe">var value = 10;
+switch value {
+  // match if v is bigger than 0
+  case v if (v &gt; 0): 
+    trace("positive: " + v);
+
+  // match if v is smaller than 0
+  case v if (v &lt; 0): 
+    trace("negative: " + v);
+
+  // matches anything
+  case _: 
+    trace("zero");
+}</code></pre>
+<p>Now let's again combine what we learned already learned so far and go back to our input command bot and make the input accept these cases:</p><ul><li><code>"say {word}"</code>. </li><li><code>"say {word} to {name}"</code>. When you use the {name} Sophia/Emma/Olivia it replies different.</li><li><code>"say {word} {amount} times"</code>. {word} should be hello/hi/hey and {amount} should be a number.</li></ul>
+<p>Since we are dealing with strings the example uses a regexp <code>^[0-9]+$</code> to validate if there is a number in the string, afterwards we parse it to an actual integer using <code>Std.parseInt</code>.
+As you can imagine, the following example would be hard to do with if/else statements.</p>
+<pre><code class="prettyprint haxe">var input = "say hello 3 times";
+
+switch input.split(" ") {
+  // match "say {word}"
+  case ["say", word]: 
+    trace(word);
+
+  // match "say {word} to {name}" where name is specific name
+  case ["say", word, "to", name = "Sophia" | "Emma" | "Olivia"]: 
+    trace('I only say $word to you, $name');
+
+  // match "say {word} to {name}"
+  case ["say", word, "to", name]: 
+    trace('$word to $name');
+
+  // match "say {word} {amount} times" where {word} is a greeting and {amount} is a number.
+  case [action = "say", word = "hello"|"hi"|"hey", amount, "times"] if (~/[0-9]{1,}/.match(amount)): 
+    for (i in 0 ... Std.parseInt(amount)) {
+      trace('$action $word');
+    }
+
+  // matches anything
+  case _:
+    trace("unknown command");
+}</code></pre>
+<h3>Matching on structures</h3>
+<p>The next flavour of pattern matching is <a href="https://haxe.org/manual/lf-pattern-matching-structure.html">matching on structures and instances</a>.
+These matches can be written like <code>case { key: &lt;pattern&gt;, key: &lt;pattern&gt;, ..}:</code>.</p>
+<p>In the following example we match on these rules:</p><ol><li>Find someone who is older than 50</li><li>Otherwise find someone named Jose who is 42</li><li>Otherwise, log the name</li></ol>
+<p>As you may notice we use capture variables,</p>
+<pre><code class="prettyprint haxe">var person = { name: "Mark", age: 33 };
+
+switch person {
+  // match person with age older than 50
+  case { age: _ &gt; 50 =&gt; true}:
+    trace('found somebody older than 50');
+
+  // match on specific person named Jose who is 42
+  case { name: "Jose", age: 42  }:
+    trace('Found Jose, who is 42');
+
+  // match on name
+  case { name: name }:
+    trace('Found someone called $name');
+
+  // matches anything
+  case _:
+    trace("unknown");
+}</code></pre>
+<p>If we would like to trace the age of the person in the first case we could have written <code>case { age: age &gt; 50 =&gt; true}: trace('found somebody older than 50, the age is $age')</code>.</p>
+<p>Of course object matching can be used with all other things we already used before.</p>
+<pre><code class="prettyprint haxe">var person1 = { name: "Mark", age: 33 };
+var person2 = { name: "John", age: 45 };
+
+switch [person1, person2] {
+  // match if person1 is older than person2
+  case [{name:name1, age:age1}, {name:name2, age:age2}] if (age1 &gt; age2):
+    trace('name1 is older than $name2');
+
+  // match on both persons names
+  case [{name:name1}, {name:name2}]:
+    trace('name1 is youngher than $name2');
+}</code></pre>
+<h3>Enum matching</h3>
+<p>Haxe provides a powerful <a href="https://haxe.org/manual/types-enum-instance.html">enumeration type</a> (enum), which are an algebraic data type (ADT). 
+They are very useful for describing data structures and work nicely with pattern matching.
+We continue to the next flavour of pattern matching: <a href="https://haxe.org/manual/lf-pattern-matching-enums.html">matching on enums</a>. </p>
+<p>The matches can be written like <code>case Enum(&lt;pattern&gt;, &lt;pattern&gt;, ..):</code> depending on the amount of parameters the enum has. 
+Of course the pattern may contain variable capture, extractors and match structures and can be restricted with guards etc. </p>
+<pre><code class="prettyprint haxe">class Game {
+  static function main() {
+    var event = WIN(1000);
+
+    switch (event) {
+      case START: 
+        trace('Game started');
+
+      case LOST:
+        trace('Game over. You lost..');
+
+      case WIN(score):
+        trace('Game over. You win! Score: $score!');
+    }
+  }
+}
+
+enum GameEvent {
+  START;
+  LOST;
+  WIN(score:Int);
+}</code></pre>
+<p>A nice thing to know is that "nested" enum instances can be matched in one case, which saves a lot of nested switches or if-conditions otherwise. 
+The syntax could be <code>case Enum(Enum(&lt;pattern&gt;, Enum(&lt;pattern&gt;), ..), &lt;pattern&gt;, ..):</code>, again depending on the amount of parameters the enum has. For example, the Haxe macro printer matches expressions that are constant (EConst) Strings (CString) in one pattern: <code>case EConst(CString(s)):</code></p>
+<p>In the following (more complex) example, a <code>Tree</code> enum consists of <code>Node</code>s and <code>Leaf</code>s, where <code>Node</code> has a left and right subtree. This way you can make a big structure, since you can keep on nesting. It is possible to use enum matching to match structures within this tree:</p>
+<pre><code class="prettyprint haxe">class Test {
+  static function main() {
+    var myTree = Node(
+      Leaf("RED"), 
+      Node(Leaf("ORANGE"), Leaf("GREEN"))
+    );
+
+    //              Node
+    //           /        \
+    //  Leaf("RED")        Node
+    //                    /     \
+    //         Leaf("ORANGE")  Leaf("GREEN")
+
+    var match = switch(myTree) {
+      // matches any Node that has a Leaf on right-side
+      case Node(_, Leaf(name)): 'Node with leaf: $name';
+
+      // matches any Node that has another Node on right-side 
+      // which has Leaf("{name}") on left-side
+      // where name is uppercase
+      case Node(_, Node(Leaf(name), _)) if (name.toUpperCase() == name): 'Node with Node with leaf: $name';
+
+      // matches any Node that has another Node on right-side 
+      // which has Leaf("{name}") on left-side
+      case Node(_, Node(Leaf(name), _)): 'Node with Node with leaf: (case sensitive) $name';
+
+      // matches anything
+      case _: 'unknown';
+    }
+
+    trace(match); // "Node with Node wih leaf: ORANGE"
+  }
+}
+
+enum Tree&lt;T&gt; {
+  Leaf(v:T);
+  Node(l:Tree&lt;T&gt;, r:Tree&lt;T&gt;);
+}</code></pre></div><hr/><blockquote class="blockquote"> <div class="contributors row"><span class="span2">Contributors:</span> <div class="span4"><a href="https://github.com/markknol" rel="external"><img src="https://github.com/markknol.png?size=40" width="20" height="20" title="Mark Knol"/>  </a><a href="https://github.com/markknol" rel="external" class="author-name">Mark Knol</a><br/> <img src="https://www.gravatar.com/avatar/88654678b856eeefa1348d2fef743208.jpg?s=40" width="20" height="20" title="Simon Krajewski"/> <span class="author-name">Simon Krajewski</span><br/></div> </div><div class="row"><span class="span2">Last modified:</span><time class="span4" datetime="2017-09-11 00:00:00" itemprop="dateModified"><span class="fa fa-clock-o"></span> <a href="https://github.com/HaxeFoundation/code-cookbook/commits/master/./assets/content/cookbook/Beginner/pattern-matching.md" rel="external">Sep 11, 2017</a></time></div><div class="row semantic"><span class="span2">Created:</span> <time class="span4" datetime="2017-08-31 00:00:00" itemprop="datePublished"><span class="fa fa-clock-o"></span> Aug 31, 2017</time></div><div class="row semantic"><span class="span2">Category:</span> <span class="span4" itemprop="articleSection"><i class="fa fa-book"></i>&nbsp;<a href="category/beginner/">Beginner</a></span></div><div class="row tags"><span class="span2">Tags:</span> <div class="span4"><span itemprop="keywords"><span class="tag"><i class="fa fa-tag"></i>&nbsp;<a href="tag/enum.html" rel="tag">enum</a><i class="semantic">,</i></span><span class="tag"><i class="fa fa-tag"></i>&nbsp;<a href="tag/pattern-matching.html" rel="tag">pattern-matching</a><i class="semantic">,</i></span><span class="tag"><i class="fa fa-tag"></i>&nbsp;<a href="tag/data-structures.html" rel="tag">data-structures</a></span></span></div></div></blockquote><hr/><div class="contribution"><span><i class="fa fa fa-edit"></i> <a href="https://github.com/HaxeFoundation/code-cookbook/edit/master/./assets/content/cookbook/Beginner/pattern-matching.md?message=Update:%20Pattern matching&description=%0A%0ASources:%0A*%20https://code.haxe.org/category/beginner/pattern-matching.html%0A%0A" rel="external">Edit page</a></span> <span>| <i class="fa fa-lightbulb-o"></i> <a href="https://github.com/HaxeFoundation/code-cookbook/issues/new?title=Suggestion:%20Pattern matching&body=%0A%0ASources:%0A*%20https://code.haxe.org/category/beginner/pattern-matching.html%0A*%20https://github.com/HaxeFoundation/code-cookbook/tree/master/./assets/content/cookbook/Beginner/pattern-matching.md%0A%0A" rel="external">Suggest improvement / Report issue</a></span> <span>| <i class="fa fa-plus-circle"></i> <a href="https://github.com/HaxeFoundation/code-cookbook/new/master/./assets/content/cookbook/Beginner/snippet-name.md/?filename=snippet-name.md" rel="external">Add new snippet</a></span> </div><hr/><div class="share-buttons"><a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="haxe">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>&nbsp; &nbsp;
+<div id="fb-root" style="display:inline-block"></div><script>(function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));</script>
+<div class="fb-like" data-href="https://code.haxe.org/category/beginner/pattern-matching.html" style="display:inline-block" data-layout="button_count" data-action="like" data-show-faces="true"></div></div></article></section></main></div><footer class="section dark site-footer"><div class="container"><div class="copyright"><p>&copy;2018&nbsp;<a class="hf-link" href="https://haxe.org/foundation/" rel="external" title="Haxe Foundation Website">Haxe Foundation</a> |&nbsp;<a href="https://github.com/HaxeFoundation/code-cookbook" title="Haxe Code Cookbook on Github" rel="external">Code Cookbook on Github</a> </p><p class="last-modified">Last deploy: Jan 25, 2018</p></div></div></footer><link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css"/><script defer="defer" src="https://haxe.org/js/jquery.min.js"></script><script defer="defer" src="https://haxe.org/js/bootstrap.min.js"></script><link rel="stylesheet" type="text/css" href="css/highlighter.min.css"/><script defer="defer" src="js/highlighter.js"></script><script>  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');  ga('create', 'UA-74262827-2', 'auto');  ga('send', 'pageview');</script></body></html>
